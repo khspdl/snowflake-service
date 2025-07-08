@@ -2,11 +2,10 @@ package msa.snowflake.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import msa.snowflake.controller.request.SnowflakeRequest;
 import msa.snowflake.controller.response.SnowflakeResponse;
 import msa.snowflake.service.SnowflakeService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -17,8 +16,8 @@ public class SnowflakeController {
     private final SnowflakeService snowflakeService;
 
     @GetMapping("/snowflake")
-    public SnowflakeResponse getId(@RequestBody SnowflakeRequest request) {
-        String result = validateRequest(request);
+    public SnowflakeResponse getId(@RequestParam("host") String host) {
+        String result = validateRequest(host);
 
         if (result != null) {
             return SnowflakeResponse.builder()
@@ -27,26 +26,16 @@ public class SnowflakeController {
         }
 
         return SnowflakeResponse.builder()
-                .host(request.getHost())
-                .service(request.getService())
+                .host(host)
                 .snowflakeId(snowflakeService.getId())
                 .build();
     }
 
-    private String validateRequest(SnowflakeRequest request) {
-        if (request == null) {
-            log.error("Invalid request: request body is null");
-            return "Invalid request: request body is null";
+    private String validateRequest(String host) {
+        if (host == null) {
+            log.error("Invalid request: host is null");
+            return "Invalid request: host is null";
         }
-        if (request.getService() == null) {
-            log.error("Invalid request: 'service' field is null");
-            return "Invalid request: missing 'service' field";
-        }
-        if (request.getHost() == null) {
-            log.error("Invalid request: 'host' field is null");
-            return "Invalid request: missing 'host' field";
-        }
-
         return null;
     }
 }
