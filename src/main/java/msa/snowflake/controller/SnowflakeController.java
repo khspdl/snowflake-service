@@ -1,5 +1,6 @@
 package msa.snowflake.controller;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import msa.snowflake.controller.response.SnowflakeResponse;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@XRayEnabled
 @RestController
 @RequiredArgsConstructor
 public class SnowflakeController {
