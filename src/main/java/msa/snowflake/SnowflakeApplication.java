@@ -13,5 +13,4 @@ public class SnowflakeApplication {
     public static void main(String[] args) {
         SpringApplication.run(SnowflakeApplication.class, args);
     }
-
 }

@@ -12,8 +12,8 @@ management:
       exposure:
         include: health,info
 
-logging:
-  level:
-    com:
-      amazonaws:
-        xray: ERROR
+#logging:
+#  level:
+#    com:
+#      amazonaws:
+#        xray: ERROR
