@@ -1,5 +1,6 @@
 package msa.snowflake.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.boot.logging.LoggingSystem;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 public class AppConfigService {
     private final WebClient webClient;
@@ -37,15 +39,15 @@ public class AppConfigService {
                         try {
                             LogLevel level = LogLevel.valueOf(levelStr.toUpperCase());
                             loggingSystem.setLogLevel(logger, level);
-                            System.out.println("Updated log level: " + logger + " -> " + level);
+                            log.info("Updated log level: {} -> {}", logger, level);
                         } catch (IllegalArgumentException e) {
-                            System.err.println("Invalid log level for " + logger + ": " + levelStr);
+                            log.error("Invalid log level for {}: {}", logger, levelStr);
                         }
                     });
                 }
             }
         } catch (Exception e) {
-            System.err.println("Failed to refresh config: " + e.getMessage());
+            log.error("Failed to refresh config: {}", e.getMessage());
         }
     }
 }
